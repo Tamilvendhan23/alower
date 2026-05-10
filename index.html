@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="icon" href="assets/images/logo.png" type="image/png">
+  <link rel="apple-touch-icon" href="assets/images/logo.png">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <title>MTC Passes</title>
+</head>
+<body>
+
+  <!-- Splash -->
+  <div id="splash">
+    <video id="splashVideo" src="assets/videos/intro.mp4" autoplay muted playsinline></video>
+  </div>
+
+  <!-- ── Full screen stamp preview overlay ── -->
+   <!-- ── Generic image preview overlay ── -->
+  <div id="imagePreviewOverlay" onclick="closeImagePreview()" style="
+    display:none; position:fixed; inset:0;
+    background:rgba(0,0,0,0.8);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    z-index:99998;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    gap:16px;
+  ">
+    <div id="imagePreviewContent" style="
+      width:80%; max-width:320px;
+      display:flex; flex-direction:column;
+      align-items:center; gap:14px;
+    " onclick="event.stopPropagation()">
+      <img id="imagePreviewImg" src="" alt="" style="
+        width:100%; border-radius:16px;
+        box-shadow:0 20px 60px rgba(0,0,0,0.6);
+        display:block;
+      ">
+      <div id="imagePreviewLabel" style="
+        color:rgba(255,255,255,0.6);
+        font-size:12px; letter-spacing:1px;
+      "></div>
+    </div>
+  </div>
+
+  <!-- ── Full screen stamp preview overlay ── -->
+  <div id="stampPreviewOverlay" onclick="closeStampPreview()">
+   <div class="preview-card" onclick="event.stopPropagation()">
+
+      <!-- Activated pass image (no tilt) -->
+      <div class="preview-img-wrap">
+        <img src="assets/images/activated_pass.png" alt="Activated Pass" id="previewStampImg">
+        <div id="previewStampOverlayText"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="app">
+
+    <!-- Header -->
+    <header class="header" id="mainHeader" style="display:none;">
+      <span class="header-title" id="headerTitle">Passes</span>
+      <div class="header-actions">
+        <button class="pill-btn">
+          <img src="assets/images/call.png" style="width:15px;height:15px;" alt="">
+          Help
+        </button>
+        <button class="pill-btn">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          History
+        </button>
+      </div>
+    </header>
+
+    <!-- ── Home ── -->
+    <div style="height: 200vh;" id="page-home" class="page active">
+      <img class="page-image"  src="assets/images/pages/home_page.png" alt="Home">
+    </div>
+
+    <!-- ── Passes ── -->
+    <div id="page-passes" class="page">
+
+      <!-- Scrollable passes content -->
+      <div class="passes-scroll">
+
+        <div class="tag-row">
+          <div class="tag">
+            <img src="assets/images/bus.png" style="width:20px;height:20px;" alt="">
+            Bus(1/1)
+          </div>
+        </div>
+
+        <!-- Pass card -->
+        <div class="main">
+          <div class="card-container">
+<img class="profile-overlay"
+     src="assets/images/profile.jpg"
+     alt="Profile"
+     onclick="openImagePreview('profile')">
+            <img class="pass-card" src="assets/images/pass.jpeg" alt="MTC Bus Pass"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+            <div class="card-placeholder">PASS CARD IMAGE</div>
+
+            <!-- Clock overlay -->
+            <!-- Clock overlay -->
+            <div class="clock-overlay" onclick="openImagePreview('clock')">
+              <div class="clock-date" id="clockDate"></div>
+              <div class="clock-time" id="clockTime"></div>
+            </div>
+
+            <!-- QR overlay -->
+            <!-- QR overlay -->
+            <div class="qr-overlay" onclick="openImagePreview('qr')">
+              <img id="qrImage" src="assets/images/qr_code.png" style="width:50px;height:50px;border-radius:12px;" alt="QR">
+            </div> 
+
+            <!-- Amount -->
+            <div class="amount-overlay"> <span style="font-weight: 600;">₹</span>1000 <br><span style="font-weight: 200; letter-spacing: 4px; color: rgb(241, 241, 241);  height:1px">----------</span> </div>
+           
+
+            <!-- Valid Till -->
+            <div class="validity-overlay"> 
+              <div class="validity-label">VALID TILL</div>
+              <div class="validity-date">30/05/2026</div>
+            </div>
+
+            <!-- Activated stamp on card -->
+            <div id="activatedStampWrap" onclick="openStampPreview()">
+              <img src="assets/images/activated_pass.png" alt="Activated" style="width:120%;display:block;border-radius:10px;">
+              <div id="activatedStampText"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Verify button — shown after activation -->
+        <div id="previewBtn" onclick="handleVerifyClick()">
+          Verify through bus OTP / QR
+        </div>
+       
+
+        <!-- Renew button — always visible below -->
+         <div class="renew-btn-page" onclick="renewPass()">Renew</div>
+         <br><br><br><br>
+
+      </div><!-- /.passes-scroll -->
+    </div>
+
+    <!-- ── Live ── -->
+    <div id="page-live" class="page">
+      <img class="page-image" src="assets/images/pages/live_page.png" alt="Live">
+    </div>
+
+    <!-- ── Ticket ── -->
+    <div id="page-ticket" class="page">
+
+     <div class="ticket-image-half">
+  <img src="assets/images/pages/ticket_page.png"
+       alt="Ticket"
+       class="ticket-img">
+</div>
+      <div class="ticket-bottom-half">
+
+        <div id="ticketEnteredText">
+          <span class="input-slot" id="slot0">_</span>
+          <span class="input-slot" id="slot1">_</span>
+          <span class="input-slot" id="slot2">_</span>
+          <span class="input-slot" id="slot3">_</span>
+          <span class="input-slot" id="slot4">_</span>
+        </div>
+         <br>
+        <div class="ticket-activate-btn" id="activateBtn" onclick="activatePass()">
+          Activate Pass <span class="chevrons">&raquo;</span>
+        </div>
+
+        <div class="keypad">
+          <div class="key alpha" onclick="keyPress('J')">J</div>
+          <div class="key alpha" onclick="keyPress('K')">K</div>
+          <div class="key alpha" onclick="keyPress('I')">I</div>
+          <div class="key num" onclick="keyPress('1')">1</div>
+          <div class="key num" onclick="keyPress('2')">2</div>
+          <div class="key num" onclick="keyPress('3')">3</div>
+          <div class="key num" onclick="keyPress('4')">4</div>
+          <div class="key num" onclick="keyPress('5')">5</div>
+          <div class="key num" onclick="keyPress('6')">6</div>
+          <div class="key num" onclick="keyPress('7')">7</div>
+          <div class="key num" onclick="keyPress('8')">8</div>
+          <div class="key num" onclick="keyPress('9')">9</div>
+          <div class="key alpha" onclick="keyPress('S')">S</div>
+          <div class="key num" onclick="keyPress('0')">0</div>
+          <div class="key del" onclick="keyDelete()">⌫</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── Profile ── -->
+    <div id="page-profile" class="page">
+      <img class="page-image" src="assets/images/pages/profile_page.png" alt="Profile">
+    </div>
+
+    <!-- Bottom nav -->
+    <nav class="bottom-nav">
+
+      <div class="nav-item active" data-page="home" data-title="Home">
+        <div class="nav-icon">
+          <img src="assets/images/home.png" style="width:24px;height:24px;" alt="">
+        </div>
+        <span class="nav-label">Home</span>
+      </div>
+
+      <div class="nav-item" data-page="passes" data-title="Passes">
+        <div class="nav-icon">
+          <div class="passes-icon-wrap">
+            <img src="assets/images/pass_bar.png" style="width:24px;height:20px;" alt="">
+          </div>
+        </div>
+        <span class="nav-label">Passes</span>
+      </div>
+
+      <div class="nav-item" data-page="live" data-title="Live">
+        <div class="nav-icon">
+          <img src="assets/images/flag.png" style="width:24px;height:24px;" alt="">
+        </div>
+        <span class="nav-label">Live</span>
+      </div>
+
+      <div class="nav-item" data-page="ticket" data-title="Ticket">
+        <div class="nav-icon">
+          <img src="assets/images/ticket.png" style="width:24px;height:24px;" alt="">
+        </div>
+        <span class="nav-label">Ticket</span>
+      </div>
+
+      <div class="nav-item" data-page="profile" data-title="Profile">
+        <div class="nav-icon">
+          <img src="assets/images/user.png" style="width:24px;height:24px;" alt="">
+        </div>
+        <span class="nav-label">Profile</span>
+      </div>
+
+    </nav>
+  </div>
+
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
