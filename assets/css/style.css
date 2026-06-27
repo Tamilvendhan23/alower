@@ -164,7 +164,8 @@ html, body {
 .validity-overlay {
   position: absolute; top: 60%; left: 50%;
   transform: translateX(-50%);
-  text-align: center; padding: 3px 14px;
+  text-align: center;
+  /* padding: 3px 14px; */
   backdrop-filter: blur(4px); white-space: nowrap;
 }
 
