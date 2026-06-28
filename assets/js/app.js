@@ -1,6 +1,53 @@
 // ── Disable right click ──
 document.addEventListener('contextmenu', e => e.preventDefault());
 
+// text animation for home page
+// ── Home page typewriter text ──
+const typewriterPhrases = [
+  { prefix: 'Search "', rest: 'Bus route', suffix: '"' },
+  { prefix: 'Search "', rest: 'Bus stop', suffix: '"' },
+  { prefix: 'Search "', rest: 'Metro station', suffix: '"' },
+  { prefix: 'Search "', rest: 'Suburban station', suffix: '"' },
+  { prefix: '', rest: 'Where are you going?', suffix: '' }
+];
+ 
+let twPhraseIndex = 0;
+let twCharIndex = 0;
+let twDeleting = false;
+ 
+function typewriterTick() {
+  const el = document.getElementById('homeTypewriter');
+  if (!el) return;
+ 
+  const { prefix, rest, suffix } = typewriterPhrases[twPhraseIndex];
+ 
+  if (!twDeleting) {
+    twCharIndex++;
+    let display = prefix + rest.slice(0, twCharIndex);
+    if (twCharIndex === rest.length) display += suffix;
+    el.textContent = display;
+ 
+    if (twCharIndex === rest.length) {
+      twDeleting = true;
+      setTimeout(typewriterTick, 1400);
+      return;
+    }
+  } else {
+    twCharIndex--;
+    el.textContent = prefix + rest.slice(0, twCharIndex);
+ 
+    if (twCharIndex === 0) {
+      twDeleting = false;
+      twPhraseIndex = (twPhraseIndex + 1) % typewriterPhrases.length;
+    }
+  }
+ 
+  setTimeout(typewriterTick, twDeleting ? 40 : 80);
+}
+ 
+typewriterTick();
+// end of text animation for home page
+
 // ── Live clock ──
 const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
@@ -35,8 +82,18 @@ function switchToPage(target, title) {
   if (headerTitle) headerTitle.textContent = title || target;
   mainHeader.style.display = HEADER_PAGES.includes(target) ? 'flex' : 'none';
 
-  // Hide footer on ticket page, show on all others
-  document.querySelector('.bottom-nav').style.display = target === 'ticket' ? 'none' : 'flex';
+  // Hide footer completely on ticket page, show on all others
+  document.getElementById('bottomNav').style.display = target === 'ticket' ? 'none' : 'flex';
+
+  // Swap footer image: black-bg version on Passes, normal version everywhere else
+  const footerImg = document.getElementById('footerImg');
+  footerImg.src = target === 'passes'
+    ? 'assets/images/footer/footer_black.png'
+    : 'assets/images/footer/footer_normal.png';
+
+  // Footer container background matches passes page (black)
+  document.getElementById('bottomNav').classList.toggle('passes-active', target === 'passes');
+
 }
 
 navItems.forEach(item => {

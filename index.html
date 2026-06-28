@@ -79,11 +79,13 @@
       </div>
     </header>
 
-    <!-- ── Home ── -->
-    <div style="height: 200vh;" id="page-home" class="page active">
-      <img class="page-image"  src="assets/images/pages/home_page.png" alt="Home">
+  <!-- ── Home ── -->
+  <div id="page-home" class="page active">
+      <div class="home-image-wrap">
+        <img class="page-image" src="assets/images/pages/home_page.png" alt="Home">
+        <div class="home-typewriter" id="homeTypewriter"></div>
+      </div>
     </div>
-
     <!-- ── Passes ── -->
     <div id="page-passes" class="page">
 
@@ -128,7 +130,7 @@
             <!-- Valid Till -->
             <div class="validity-overlay"> 
               <div class="validity-label">VALID TILL</div>
-              <div class="validity-date">28/07/2026</div>
+              <div class="validity-date">25/07/2026</div>
             </div>
 
             <!-- Activated stamp on card -->
@@ -206,46 +208,17 @@
     </div>
 
     <!-- Bottom nav -->
-    <nav class="bottom-nav">
+          <nav class="bottom-nav" id="bottomNav">
 
-      <div class="nav-item active" data-page="home" data-title="Home">
-        <div class="nav-icon">
-          <img src="assets/images/home.png" style="width:24px;height:24px;" alt="">
-        </div>
-        <span class="nav-label">Home</span>
-      </div>
+          <img class="footer-bg-img" id="footerImg" src="assets/images/footer/footer_normal.png" alt="">
 
-      <div class="nav-item" data-page="passes" data-title="Passes">
-        <div class="nav-icon">
-          <div class="passes-icon-wrap">
-            <img src="assets/images/pass_bar.png" style="width:24px;height:20px;" alt="">
-          </div>
-        </div>
-        <span class="nav-label">Passes</span>
-      </div>
+          <div class="nav-item active" data-page="home" data-title="Home"></div>
+          <div class="nav-item" data-page="passes" data-title="Passes"></div>
+          <div class="nav-item" data-page="live" data-title="Live"></div>
+          <div class="nav-item" data-page="ticket" data-title="Ticket"></div>
+          <div class="nav-item" data-page="profile" data-title="Profile"></div>
 
-      <div class="nav-item" data-page="live" data-title="Live">
-        <div class="nav-icon">
-          <img src="assets/images/flag.png" style="width:24px;height:24px;" alt="">
-        </div>
-        <span class="nav-label">Live</span>
-      </div>
-
-      <div class="nav-item" data-page="ticket" data-title="Ticket">
-        <div class="nav-icon">
-          <img src="assets/images/ticket.png" style="width:24px;height:24px;" alt="">
-        </div>
-        <span class="nav-label">Ticket</span>
-      </div>
-
-      <div class="nav-item" data-page="profile" data-title="Profile">
-        <div class="nav-icon">
-          <img src="assets/images/user.png" style="width:24px;height:24px;" alt="">
-        </div>
-        <span class="nav-label">Profile</span>
-      </div>
-
-    </nav>
+        </nav>
   </div>
 
   <script src="assets/js/app.js"></script>
